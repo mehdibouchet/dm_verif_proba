@@ -1,51 +1,50 @@
 // 1- La machine est toujours dans un seul des quatre modes.
 A [ G (("M_dispo"&!("M_choix"|"M_prepa"|"M_fin"))|("M_choix"&!("M_dispo"|"M_prepa"|"M_fin"))|("M_prepa"&!("M_dispo"|"M_choix"|"M_fin"))|("M_fin"&!("M_dispo"|"M_choix"|"M_prepa"))) ]
 
-// 2- 1) dans le mode "disponible" et le mode "choix", seul le voyant V_pret est allumé
+// 2- a) dans le mode "disponible" et le mode "choix", seul le voyant V_pret est allumé
 A [ G ("M_dispo"&"M_choix"=>("V_rdy"&!("V_prp"|"V_fin"))) ]
 
-// 2- 2) dans le mode "préparation", seul le voyant V_prepa est allumé
+// 2- b) dans le mode "préparation", seul le voyant V_prepa est allumé
 A [ G ("M_prepa"=>("V_prp"&!("V_rdy"|"V_fin"))) ]
 
-// 2- 3) dans le mode "fin", seul le voyant V_fini est allumé.
+// 2- c) dans le mode "fin", seul le voyant V_fini est allumé.
 A [ G ("M_fin"=>("V_fin"&!("V_rdy"|"V_prp"))) ]
 
 // 3- Lorsque la machine est dans le mode "disponible" et qu’une pièce est insérée, elle passe dans le mode "choix"
 A [ G (("M_dispo"&"P_50")=>(X ("M_choix"))) ]
 
-// 4- 1) Lorsque la machine est dans le mode "choix" et qu’un bouton de boisson est enfoncé, elle passe dans le mode "prepa"
+// 4- a) Lorsque la machine est dans le mode "choix" et qu’un bouton de boisson est enfoncé, elle passe dans le mode "prepa"
 A [ G (("M_choix"&("B_the"|"B_caf"))=>(X ("M_prepa"))) ]
 
-// 4- 2) Mais si c’est le bouton Annulation qui est utilisé, elle repasse en mode "disponible" et la pièce est rendue (la proposition R50 passe à vraie).
+// 4- b) Mais si c’est le bouton Annulation qui est utilisé, elle repasse en mode "disponible" et la pièce est rendue (la proposition R50 passe à vraie).
 A [ G (("M_choix"&"B_ann")=>(X ("M_dispo"&"R_50"))) ]
 
 // 5) Lorsque la machine est dans le mode "fini" et que le gobelet est retiré (proposition G_out), elle passe en mode "disponible".
 A [ G (("M_fin"&"G_out"=>(X "M_dispo"))) ]
 
-// Si on sort du mode "disponible" on va dans le mode "choix"
+// 6- a) Si on sort du mode "disponible" on va dans le mode "choix"
 A [ G ( ("M_dispo" & (X!"M_dispo")) => (X"M_choix") )]
 
-// Si on sort du mode "choix" on va soit dans le mode "préparation" soit dans le mode "choix"
+// 6- b) Si on sort du mode "choix" on va soit dans le mode "préparation" soit dans le mode "choix"
 A [ G ( ("M_choix" & (X!"M_choix")) => (X("M_dispo" | "M_prepa")) )]
 
-// Si on sort du mode "préparation" on va dans le mode "fin"
+// 6- c) Si on sort du mode "préparation" on va dans le mode "fin"
 A [ G ( ("M_prepa" & (X!"M_prepa")) => (X"M_fin") )]
 
-// Si on sort du mode "fin" on va dans le mode "disponible"
+// 6- d) - Si on sort du mode "fin" on va dans le mode "disponible"
 A [ G ( ("M_fin" & (X!"M_fin")) => (X"M_dispo") )]
 
-// Le mode "disponible" est rencontré infiniment souvent si l’utilisateur n’appuie pas infiniment souvent sur le bouton Sucre.
+// 7) Le mode "disponible" est rencontré infiniment souvent si l’utilisateur n’appuie pas infiniment souvent sur le bouton Sucre.
 A [ !(G F ("B_suc")) => ( G F "M_dispo") ]
 
-// Lorsque la machine est en mode "choix", une pression sur le bouton Sucre rend vraie (dans l'etat suivant) la proposition P_sucré.
+// 8- a) Lorsque la machine est en mode "choix", une pression sur le bouton Sucre rend vraie (dans l'etat suivant) la proposition P_sucré.
 A [ G( ("M_choix" & "B_suc" & "P_pas_sucre") => (X"P_sucre") )]
 
-// Lorsque la machine est en mode "choix", une seconde pression rend vraie la proposition P_tres_sucré et fausse P_sucré.
+// 8- b) Lorsque la machine est en mode "choix", une seconde pression rend vraie la proposition P_tres_sucré et fausse P_sucré.
 A [ G( ("M_choix" & "B_suc" & "P_sucre") => (X"P_tres_sucre") )]
 
-// Lorsque la machine est en mode "choix", une troisième pression revient dans la situation initiale où les deux propositions Psucré et P_très_sucré sont fausses. Cela permet à l’utilisateur de doser le sucre de trois manières (pas sucré, sucré, très sucré).
+// 8- c) Lorsque la machine est en mode "choix", une troisième pression revient dans la situation initiale où les deux propositions Psucré et P_très_sucré sont fausses. Cela permet à l’utilisateur de doser le sucre de trois manières (pas sucré, sucré, très sucré).
 A [ G( ("M_choix" & "B_suc" & "P_tres_sucre") => (X"P_pas_sucre") )]
 
-// Si l’utilisateur appuie sur le bouton café, un café lui sera servi et si il appuie sur le bouton thé, un thé lui sera servi.
+// 9) Si l’utilisateur appuie sur le bouton café, un café lui sera servi et si il appuie sur le bouton thé, un thé lui sera servi.
 A [ G( ("B_caf" => (X"T_caf")) & ("B_the" => (X"T_the")) ) ]
-

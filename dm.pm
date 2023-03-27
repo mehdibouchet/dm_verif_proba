@@ -62,8 +62,7 @@ module Distributeur
 	[] Mode= 1 & !wait & B_caf -> (Mode'= 2) & (Voy' = 1) & (B_caf'= false) & (Type'= 1) & (wait'= false);
 	[] Mode= 1 & !wait & B_the -> (Mode'= 2) & (Voy' = 1) & (B_the'= false) & (Type'= 2) & (wait'= false);
  
-	[] Mode= 2 & Type= 1 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
-	[] Mode= 2 & Type= 2 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
+	[] Mode= 2 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
 
 	[] Mode= 3 & wait & !G_out -> (G_out'= true) & (Type'= 0) & (P_suc'= 0);
 	[] Mode= 3 & G_out -> (Mode'= 0) & (Voy'= 0) & (G_out'= false);

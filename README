@@ -1,49 +1,137 @@
 Dans ce rapport, nous détaillerons le choix d'implémentation de notre 
 
 
-Les propriétés atomatiques
+Les propositions atomatiques
 
-wait : Wait est un bool. Elle permet de définir si l'utilisateur est autorisé a agir. Si la variable est a true, l'automate est dans l'attente d'une action utilisateur. Elle nous est utile afin de simplifier les transitions du modèle et l'expression de nos propriétés. En effet, en poussant le sujet un peu plus en profondeur, si l'on souhaite implémenter la notion d'erreur utilisateur dans les propriétés du modèle en vérifiant s'il est autorisé ou non à appuyer sur un bouton, il nous suffira de vérifier la valeur de la variable wait.
+wait : Wait est un bool. Elle permet de définir si l'utilisateur est autorisé a agir. Si la variable est a true, l'automate est dans l'attente d'une action utilisateur. Elle nous est utile afin de simplifier les transitions du modèle et l'expression de nos propositions. En effet, en poussant le sujet un peu plus en profondeur, si l'on souhaite implémenter la notion d'erreur utilisateur dans les propriétés du modèle en vérifiant s'il est autorisé ou non à appuyer sur un bouton, il nous suffira de vérifier la valeur de la variable wait.
     Wait est initialisé a true
 
-Les propriétés génériques
-Ici sont définis les propriétés génériques, imposées par la représentation du le sujet. Il est défini 4 propriétés atomatiques permettant de désigner les boutons de la machine.
-    
-Les boutons
+Les propositions
+Ici sont définis les propositions, imposées ou induite par la représentation du le sujet. 
+
+Il est défini 4 propositions atomatiques permettant de désigner les boutons de la machine.
     B_caf : B_caf est un bool. Elle permet de définir si l'utilisateur vient d'appuyer sur le bouton café. Le bouton est initialisé à false.
     B_the : B_the est un bool. Elle permet de définir si l'utilisateur vient d'appuyer sur le bouton thé. Le bouton est initialisé à false.
     B_ann : B_ann est un bool. Elle permet de définir si l'utilisateur vient d'appuyer sur le bouton annulé. Le bouton est initialisé à false.
     B_suc : B_suc est un bool. Elle permet de définir si l'utilisateur vient d'appuyer sur le bouton sucre. Le bouton est initialisé à false.
 
 Les voyants
-    Voy: Il est défini un propriété atomatique pouvant prendre 3 valeurs permettant de définir le voyant allumé. (Voy = 0) si le voyant prêt est allumé, (Voy = 1) si le voyant "preparation" est allumé et (Voy = 2) si le voyant "fin" est allum". Par défaut initialisé à 0.
+    Voy: Il est défini un proposition atomatique pouvant prendre 3 valeurs permettant de définir le voyant allumé. (Voy = 0) si le voyant prêt est allumé, (Voy = 1) si le voyant "preparation" est allumé et (Voy = 2) si le voyant "fin" est allum". Par défaut initialisé à 0.
 
-    Nous avons fait le choix de définir une propriété atomique numérique afin de simplifier l'écriture de notre modele. Il est a noté qu'il n'est pas possible dans notre conception d'allumer deux voyants à la fois auquel cas j'aurais défini trois PA booléenne bien distinctes ou aggrandi le domaine des valeurs de Voy et défini (Voy = 3) comme le voyant "prêt" et "prep" allumé et ainsi de suite... De plus, on peut définir (Voy = 3) "tous les voyants s'allument" afin de définir aisaiment le changement d'état des voyants lors d'une erreur machine.
+    Nous avons fait le choix de définir une proposition atomique numérique afin de simplifier l'écriture de notre modele. Il est a noté qu'il n'est pas possible dans notre conception d'allumer deux voyants à la fois auquel cas j'aurais défini trois PA booléenne bien distinctes ou aggrandi le domaine des valeurs de Voy et défini (Voy = 3) comme le voyant "prêt" et "prep" allumé et ainsi de suite... De plus, on peut définir (Voy = 3) "tous les voyants s'allument" afin de définir aisaiment le changement d'état des voyants lors d'une erreur machine.
 
 La pièce
     P_50: P_50 est un bool. Elle permet de définir si la pièce vient d'être insérée par l'utilisateur. Elle est initialisé à false.
     R_50: R_50 est un bool. Elle permet de définir si la pièce vient d'être rendue par l'utilisateur. Elle est initialisé à false.
 
+    À noter que ces deux propositions définissent une action de l'utilisateur, elles ne doivent pas persister dans le temps dans la représentation de notre automate.
+
 L'utilisateur
     G_out : G_out est un bool. Elle permet de définir si l'utilisateur vient de prendre son Gobelet. Elle est initialisé à false.
 
 Le sucre
-    P_suc: Il est défini un propriété atomatique pouvant prendre 3 valeurs permettant de définir la quantité de sucre demandé par l'utilisateur. (P_suc = 0) si l'utilisateur n'a pas demandé de sucre. (P_suc = 1) si l'utilisateur a demandé une quantité de sucre. (P_suc = 2) si l'utilisateur a demandé deux quantité de sucre. Par défaut initialisé à 0.
+    P_suc: Il est défini une proposition atomatique pouvant prendre 3 valeurs permettant de définir la quantité de sucre demandé par l'utilisateur. (P_suc = 0) si l'utilisateur n'a pas demandé de sucre. (P_suc = 1) si l'utilisateur a demandé une quantité de sucre. (P_suc = 2) si l'utilisateur a demandé deux quantité de sucre. Par défaut initialisé à 0.
 
 Le mode
-    Mode: Il est défini un propriété atomatique pouvant prendre 4 valeurs permettant de définir le mode du distributeur. (Mode = 0) si le distributeur est dans le mode "dispo". (Mode = 1) si le distributeur est dans le mode "choix". (Mode = 2) si le distributeur est dans le mode "prepa". (Mode = 3) si le distributeur est dans le mode "fin". Par défaut initialisé à 0.
+    Mode: Il est défini une proposition atomatique pouvant prendre 4 valeurs permettant de définir le mode du distributeur. (Mode = 0) si le distributeur est dans le mode "dispo". (Mode = 1) si le distributeur est dans le mode "choix". (Mode = 2) si le distributeur est dans le mode "prepa". (Mode = 3) si le distributeur est dans le mode "fin". Par défaut initialisé à 0.
 
 Le type
-    Type: Il est défini un propriété atomatique pouvant prendre 3 valeurs permettant de définir le type de la boisson selectionné par l'utilisateur. (Type = 0) si l'utilisateur n'a rien selectionné. (Mode = 1) si le distributeur est dans le mode "choix". (Mode = 2) si le distributeur est dans le mode "prepa". (Mode = 3) si le distributeur est dans le mode "fin". Par défaut initialisé à 0.
+    Type: Il est défini une proposition atomatique pouvant prendre 3 valeurs permettant de définir le type de la boisson selectionné par l'utilisateur. (Type = 0) si l'utilisateur n'a rien selectionné. (Type = 1) si l'utilisateur a selectionné du cafe (Mode = 2) si l'utilisateur a selectionné du thé. Par défaut initialisé à 0.
 
-// PA Type
-// Type = 0 : L'utilisateur n'a rien selectionné
-// Type = 1 : L'utilisateur a selectionné du café
-// Type = 2 : L'utilisateur a selectionné du thé
-Type : [0..2] init 0;
+    Note : L'utilisateur ne pouvant être que dans un type par défaut, nous avons défini une propriété numérique pour définir les trois types plutôt que booléenne.
 
-// PA Preparation
-// Prepa = 0 : La distributeur n'a rien préparé
-// Prepa = 1 : La distributeur a préparé du café
-// Prepa = 2 : La distributeur a préparé du the
-Prepa : [0..2] init 0;
+
+Les transitions
+	[] Mode= 0 & wait -> (P_50' = true) & (wait' = false);
+        Cette instruction l'état initial du distributeur. Il est dans l'attente d'une pièce de la part de l'utilisateur (d'où le wait). Lorsque la pièce est inséré, wait passe a false.
+
+	[] Mode= 0 & P_50 & !wait-> (Mode' = 1) & (P_50'= false) & (wait' = true);
+        Cette instruction définit un état par lequel passe l'automate lorsque l'utilisateur insère une pièce. Lorsque wait passe a false, l'automate transite par cet état avant de définir le mode du distributeur à 1. D'après notre définition de P_50, cette dernière repasse à false. De même pour wait : l'automate est dans l'attente d'une action de l'utilisateur
+
+	[] Mode= 1 & wait -> (Mode'= 0) & (B_ann' = true) & (R_50'= true) & (P_suc' = 0) & (wait' = false);
+        Lorsque l'automate est dans le mode 1, l'utilisateur a 4 possibilité : 
+        1) La possibilité annuler son choix et de reprendre sa pièce. Cette instruction définit cette action.
+
+	[] Mode= 0 & !wait & B_ann -> (B_ann' = false) & (R_50'= false) & (wait'= true);
+        Lorsque la pièce a été rendue, on repasse à l'état initial.
+
+[] Mode= 1 & wait -> (B_suc' = true) & (wait' = false);
+    2) L'utilisateur a aussi la possibilité d'ajouter du sucre. Si l'utilisateur appuie sur le bouton B_suc, on applique les conditions d'ajout décrites dans le projet. Cela se fait en définissant trois scénarios dépendant de la valeur de B_suc pour la suite de nos transitions.
+
+[] Mode= 1 & !wait & B_suc & (P_suc = 0) -> (P_suc' = 1) & (B_suc' = false) & (wait'= true);
+    2) a) Si la boisson a préparé ne devait pas contenir de sucre, elle doit en contenir une quantité. L'utilisateur peut désormais choisir une nouvelle action.
+[] Mode= 1 & !wait & B_suc & (P_suc = 1) -> (P_suc' = 2) & (B_suc' = false) & (wait'= true);
+    2) b) Si la boisson a préparé devait contenir une quantité de sucre, elle doit en contenir deux. L'utilisateur peut désormais choisir une nouvelle action.
+[] Mode= 1 & !wait & B_suc & (P_suc = 2) -> (P_suc' = 0) & (B_suc' = false) & (wait'= true);
+    2) c) Si la boisson a préparé devait contenir deux quantités de sucre, elle ne doit plus en contenir. L'utilisateur peut désormais choisir une nouvelle action.
+
+[] Mode= 1 & wait -> (B_caf' = true) & (wait'= false);
+    3) L'utilisateur a la possibilité d'appuyer sur un bouton de boisson Café B_caf.
+
+[] Mode= 1 & wait -> (B_the' = true) & (wait'= false);
+    4) L'utilisateur a finalement la possibilité d'appuyer sur un bouton de boisson Thé B_the.
+    
+[] Mode= 1 & !wait & B_caf -> (Mode'= 2) & (Voy' = 1) & (B_caf'= false) & (Type'= 1) & (wait'= false);
+    Si B_caf a été appuyé, on défini le type Type de boisson à 1, on prépare le café et l'utilisateur doit attendre la machine (aucune action possible en Mode 2 d'où Mode = 2 et wait = false). On définit ainsi le type type de boisson a préparé (décrit par la PA Type)
+
+    
+[] Mode= 1 & !wait & B_the -> (Mode'= 2) & (Voy' = 1) & (B_the'= false) & (Type'= 2) & (wait'= false);
+    Si B_caf a été appuyé, on défini le type Type de boisson à 2, on prépare le thé et l'utilisateur doit attendre la machine.
+
+    On considère que l'automate reste bloqué dans ces deux modes tant que la boisson n'est pas terminée. Cela aurait pu être plus explicite avec l'aide d'une PA (boisson_load par exemple) qui passe a vrai en (Mode = 2) tant qu'elle est en préparation et a faux en (Mode = 2) lorsqu'elle est prête. Cela rajouterait un état en plus et nous permettrait par exemple de jouer le son "bip" avant de transiter à l'état 3 avec la prochaine instruction.
+
+[] Mode= 2 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
+    Lorsque la boisson est prête, on passe au (Mode = 3).
+    
+    Ps: le "bip" peut se jouer ici en soit.
+
+[] Mode= 3 & wait & !G_out -> (G_out'= true) & (Type'= 0) & (P_suc'= 0);
+    On attend que l'utilisateur prenne sa boisson. Dès que l'utilisateur prend sa boisson, on réinitialise les variables Type et P_suc à 0. L'automate n'est donc plus en position d'indiquer ni la nature de la boisson ni sa quantité de sucre.
+    Il est a noté que j'ai choisi de définir P_cafe et P_the en tant que label car nous n'avons pas besoin de ceux là pour notre représentation. Voir plus loin *Les labels*.
+    
+[] Mode= 3 & G_out -> (Mode'= 0) & (Voy'= 0) & (G_out'= false);
+    Dès que l'utilisateur a pris sa boisson, on repasse à l'état initial.
+
+
+
+Les labels & propriétés
+
+Les labels concernant la quantitée de sucre
+    label "P_pas_sucre"  = (P_suc = 0);
+    label "P_sucre"      = (P_suc = 1);
+    label "P_tres_sucre" = (P_suc = 2);
+
+Les labels concernant le mode dans lequel l'automate se trouve.
+label "M_dispo" = (Mode = 0);
+label "M_choix" = (Mode = 1);
+label "M_prepa" = (Mode = 2);
+label "M_fin"   = (Mode = 3);
+
+Les labels décrivant le type de boisson sélectionné
+label "T_caf"  = (Type = 1);
+label "T_the"  = (Type = 2);
+
+Les labels décrivant le type de la boisson préparé.
+Par esprit de simplicité, j'ai fait le choix de décrire les PA du sujet P_cafe et P_the par des label, au travers la Type. Cela permet de suivre tout au long du processus le type de la boisson selectionné au lieu de juste définir le type de la boisson préparé à terme, dans le Mode = 3. Lors du Mode = 3, il nous suffit de vérifier si Type = 1 ou Type = 2 afin d'avoir cette information. D'où la rédaction de cette information sous forme de label et non de proposition.
+label "P_cafe" = (Mode = 3 & Type = 1);
+label "P_the"  = (Mode = 3 & Type = 2);
+
+
+Les labels décrivant si un voyant est allumé ou non.
+label "V_rdy" = (Voy = 0);
+label "V_prp" = (Voy = 1);
+label "V_fin" = (Voy = 2);
+
+Les labels décrivant si une pièce est insérée et si une pièce est rendue.
+label "P_50" = P_50;
+label "R_50" = R_50;
+
+Le label décrivant si l'utilisateur vient de prendre le gobelet de boisson.
+label "G_out" = G_out;
+
+Les labels décrivant si un des quatres boutons a été appuyé.
+label "B_the" = B_the;
+label "B_caf" = B_caf;
+label "B_ann" = B_ann;
+label "B_suc" = B_suc;
+
