@@ -45,12 +45,6 @@ module Distributeur
 	// Type = 1 : L'utilisateur a selectionné du café
 	// Type = 2 : L'utilisateur a selectionné du thé
 	Type : [0..2] init 0;
-
-	// PA Preparation
-	// Prepa = 0 : La distributeur n'a rien préparé
-	// Prepa = 1 : La distributeur a préparé du café
-	// Prepa = 2 : La distributeur a préparé du the
-	Prepa : [0..2] init 0;
 	
 	[] Mode= 0 & wait -> (P_50' = true) & (wait' = false);
 	[] Mode= 0 & P_50 & !wait-> (Mode' = 1) & (P_50'= false) & (wait' = true);
@@ -68,10 +62,10 @@ module Distributeur
 	[] Mode= 1 & !wait & B_caf -> (Mode'= 2) & (Voy' = 1) & (B_caf'= false) & (Type'= 1) & (wait'= false);
 	[] Mode= 1 & !wait & B_the -> (Mode'= 2) & (Voy' = 1) & (B_the'= false) & (Type'= 2) & (wait'= false);
  
-	[] Mode= 2 & Type= 1 & !wait -> (Mode'= 3) & (Voy' = 2) & (Prepa' = 1) & (wait'= true);
-	[] Mode= 2 & Type= 2 & !wait -> (Mode'= 3) & (Voy' = 2) & (Prepa' = 2) & (wait'= true);
+	[] Mode= 2 & Type= 1 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
+	[] Mode= 2 & Type= 2 & !wait -> (Mode'= 3) & (Voy' = 2) & (wait'= true);
 
-	[] Mode= 3 & wait & !G_out -> (G_out'= true) & (Type'= 0) & (P_suc'= 0) & (Prepa'= 0);
+	[] Mode= 3 & wait & !G_out -> (G_out'= true) & (Type'= 0) & (P_suc'= 0);
 	[] Mode= 3 & G_out -> (Mode'= 0) & (Voy'= 0) & (G_out'= false);
 
 //Distribuer une petite touilette si il y a du sucre ==> Cela se fait facilement avec cette implémentation
